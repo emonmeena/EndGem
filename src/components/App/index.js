@@ -1,4 +1,3 @@
-import Axios from 'axios'
 import React, {Component} from 'react'
 import axios from 'axios';
 import {Button, Form, FormGroup, Input, Label} from 'reactstrap'
@@ -8,13 +7,13 @@ export default class App extends Component {
 
     constructor(props){
         super(props)
-        this.state = {top_name: ''};
-        this.data = [];
+        this.state = {pk: 0, top_name: ''};
     }
 
     onFormSubmit = (e) =>{
         e.preventDefault();
-        axios.post('')
+        console.log(this.state)
+        axios.post('first_app/topics/', this.state)
     }
 
     setValue = (e) =>{
@@ -31,7 +30,7 @@ export default class App extends Component {
                     <Label>Topic Name</Label>
                     <Input onChange={this.setValue} value={top_name} />
                 </FormGroup>
-                <Button type="submit">Post</Button>
+                <Button type="submit">Add Topic</Button>
             </Form>
         </div>
         );
