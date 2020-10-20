@@ -1,5 +1,6 @@
 import React from 'react'
 import axios from 'axios'
+import {Button, FormGroup} from 'reactstrap'
 
 export default class ListTopics extends React.Component{
     constructor(props){
@@ -16,16 +17,25 @@ export default class ListTopics extends React.Component{
         .then(response => {
             this.setState({data: response.data})
         })
-        .catch(error =>{
-            this.setState({error: 'An error occured while GET request to the tpopics API'});
-        })
+     
+    }
+
+    deleteTopic = (pk) =>{
+        axios.delete('first_app/topics/' + pk)
+        .catch(error => console.log(error))
     }
 
     render(){
         return (
             <div>
                 <ul>
-        {this.state.data.map((dataObj) => <li key={dataObj.pk}>{dataObj.top_name}</li>)}
+                    {this.state.data.map((dataObj) => {
+                    return <FormGroup key={dataObj.pk}>
+                        {dataObj.top_name }
+                        <Button type="submit" onClick={() => this.deleteTopic(dataObj.pk)}>DELETE</Button>
+                        <Button type="submit" onClick={() => this.updateTopic(dataObj.pk)}>UPDATE</Button>
+                    </FormGroup>
+                })}
                 </ul>
             </div>
         );
