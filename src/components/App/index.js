@@ -1,57 +1,39 @@
+import Axios from 'axios'
 import React, {Component} from 'react'
 import axios from 'axios';
+import {Button, Form, FormGroup, Input, Label} from 'reactstrap'
+import ListTopics from '../ListTopics'
 
 export default class App extends Component {
 
     constructor(props){
-        super(props);
-        this.state = {data: [], error: ''};
-    }
-    componentDidMount(){
-        // this.setState({data: "Loading..."})
-
-        // axios.get('/first_app/topics')
-        // .then(res => 
-        //     this.setState({data: res.data })
-        //     )
-
-        this.fetchTopicList();
-    };
-
-    fetchTopicList = async () =>{
-        await axios.get('/first_app/topics')
-              .then((res) => {
-                  console.log(res);
-                  this.setState({data: res})
-              })
-              .catch((res) => console.log(res))
+        super(props)
+        this.state = {top_name: ''};
+        this.data = [];
     }
 
-    onFormSubmit = () =>{
-        axios.post('/first_app/topics')
+    onFormSubmit = (e) =>{
+        e.preventDefault();
+        axios.post('')
     }
 
-    renderList = () =>{
-        return this.state.data.map((name) => {
-            return <li>{name}</li>
-        });
-
+    setValue = (e) =>{
+        this.setState({top_name: e.target.value})
     }
 
     render(){
-    return (
-            <div>
-                <div>
-                    <p>Topics</p>
-                    <ul>
-                        {this.renderList()}
-                    </ul>
-                </div>
-                <form method="POST" onSubmit={this.onFormSubmit}>
-                    <input placeholder="type topic name"/>
-                    <input type = "submit" value="Submit" />
-                </form>
-            </div>
+        const {top_name} = this.state;
+        return (
+        <div>
+            <ListTopics />
+            <Form onSubmit = {this.onFormSubmit}>
+                <FormGroup>
+                    <Label>Topic Name</Label>
+                    <Input onChange={this.setValue} value={top_name} />
+                </FormGroup>
+                <Button type="submit">Post</Button>
+            </Form>
+        </div>
         );
     }
 }
