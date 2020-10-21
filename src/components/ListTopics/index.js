@@ -1,11 +1,12 @@
 import React from 'react'
 import axios from 'axios'
-import {Button, FormGroup} from 'reactstrap'
+import {Button} from 'reactstrap'
 
 export default class ListTopics extends React.Component{
     constructor(props){
         super(props);
         this.state = {data: [], error: ''};
+        this.updatedData = {top_name: ''};
     }
 
     componentDidMount = () =>{
@@ -25,16 +26,24 @@ export default class ListTopics extends React.Component{
         .catch(error => console.log(error))
     }
 
+    updateTopic = (pk) =>{
+        
+    }
+
     render(){
         return (
             <div>
                 <ul>
                     {this.state.data.map((dataObj) => {
-                    return <FormGroup key={dataObj.pk}>
-                        {dataObj.top_name }
-                        <Button type="submit" onClick={() => this.deleteTopic(dataObj.pk)}>DELETE</Button>
+                    return (
+                    <div key={dataObj.pk}>
+                        <div>
+                            {dataObj.top_name }
+                        </div>
+                        <Button type="submit" className="mr-3" onClick={() => this.deleteTopic(dataObj.pk)}>DELETE</Button>
                         <Button type="submit" onClick={() => this.updateTopic(dataObj.pk)}>UPDATE</Button>
-                    </FormGroup>
+                    </div>
+                    );
                 })}
                 </ul>
             </div>

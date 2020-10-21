@@ -1,13 +1,26 @@
 import React from 'react'
-import AddTopic from '../AddTopic'
 import ListTopic from '../ListTopics'
 
 export default class App extends React.Component{
+
+    constructor(props){
+        super(props);
+        this.state = {showForm: false}
+    }
+
+    addTopic = () =>{
+
+        
+    }
+
     render(){
         return (
             <div>
                 <ListTopic />
-                <AddTopic />
+                {/* <AddTopic /> */}
+
+                {this.addTopic()}
+
             </div>
         );
     }
