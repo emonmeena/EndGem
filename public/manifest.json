@@ -1,6 +1,6 @@
 {
-  "short_name": "React App",
-  "name": "Create React App Sample",
+  "short_name": "EndGem App",
+  "name": "App made for storing course related gems.",
   "icons": [
     {
       "src": "favicon.ico",

@@ -32,14 +32,14 @@ export default class App extends Component{
     render(){
         const {courses, files} = this.state;
         return (
-            <Container>
+            <div>
                     {
                         courses.map((course) =>{
                             return <button key={course.pk} onClick={() => this.getCourseMaterial(course.pk)} >{course.name}</button>
                         })
                     }
                 <FilesSection files={files} />
-            </Container>
+            </div>
         );
     }
 }
