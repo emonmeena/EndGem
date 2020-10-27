@@ -7,12 +7,11 @@ import './css/index.css'
 export default class App extends Component{
     constructor(props){
         super(props);
-        this.state = {courses: [], files: [], selectedCourse: 1, showAddGemForm: true}
+        this.state = {courses: [], files: [], selectedCourse: -1, showAddGemForm: false}
     }
 
     componentDidMount = () =>{
         this.fetchData();
-        this.getCourseMaterial(0);
     }
 
     fetchData = async () => {
@@ -23,25 +22,30 @@ export default class App extends Component{
     }
 
     getCourseMaterial = async (pk) =>{
-        this.setState({selectedCourse: pk})
+        this.setState({selectedCourse: pk, showAddGemForm: false})
             await axios.get('endgemAPI/materials/' + pk)
             .then(response => {
                 this.setState({files: response.data})
             })
     }
 
-    addGem = (e) =>{
-        e.preventDefault();
+    changeSelectedCourse = (pk) =>{
+        this.getCourseMaterial(pk);
+        this.setState({showAddGemForm: true})
     }
 
-    addGemForm = (b, files, courses)=>{
+    hideAddGemForm = () => {
+        this.getCourseMaterial(this.state.selectedCourse);
+    }
+
+    addGemForm = (b, files, courses, selectedCourse)=>{
         if(b)
-            return <AddGem courses = {courses}/>
-        return <FilesSection files={files}/>
+            return <AddGem courses = {courses} selectedCourse={selectedCourse} changeSelectedCourse={this.changeSelectedCourse} hideAddGemForm={this.hideAddGemForm}/>
+        return <FilesSection files={files} selectedCourse={selectedCourse} />
     }
 
     render(){
-        const {courses, files, showAddGemForm} = this.state;
+        const {courses, files, showAddGemForm, selectedCourse} = this.state;
         return (
             <div>
                 <header className="border bg-light p-3 d-flex justify-content-between">
@@ -59,7 +63,7 @@ export default class App extends Component{
                         })}
                     </div>
                         <div>
-                            <button className="btn btn-primary" onClick={() => this.setState((prev) => ({showAddGemForm: !prev.showAddGemForm}))}>
+                            <button className="btn btn-primary" onClick={() => this.setState((prev) => ({showAddGemForm: true}))}>
                                 Add Gem{" "}
                                 <i className="fas fa-plus" />
                             </button>
@@ -68,7 +72,7 @@ export default class App extends Component{
                             </button>
                         </div>
                 </header>
-                {this.addGemForm(showAddGemForm, files, courses)}
+                {this.addGemForm(showAddGemForm, files, courses, selectedCourse)}
             </div>
         );
     }

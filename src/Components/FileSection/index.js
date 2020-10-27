@@ -1,16 +1,18 @@
 import React from 'react'
 import {Container } from 'reactstrap';
 
-export default function FileSection ({files}){
+export default function FileSection ({files, selectedCourse}){
 
-    const startMessage = () =>{
+    const showMessage = () =>{
+        if(selectedCourse === -1)
+            return <p className="text-secondary display-5 text-center">Select a course to view its Gems <i className="fas fa-gem text-primary"/> !!</p>
         if(files.length === 0)
-            return <p className="text-secondary display-2 text-center">Select a course to view its Gems <i className="fas fa-gem text-primary"/> !!</p>
+            return <p className="text-secondary text-center display-5">This Course does not have any gem yet, click on AddGem to upload a Gem!! </p>    
     }
 
     return(
             <Container className="mt-3">
-                {startMessage()}
+                {showMessage()}
                 { files.map(file =>{
                     return (
                         <div className="border m-2 p-2 rounded bg-light shadow" key={file.pk}>

@@ -6,22 +6,22 @@ import { Input } from 'reactstrap';
 export default class AddGem extends Component{
     constructor(props){
         super(props);
-        this.state = {name: "", course: 3};
+        this.state = {name: "", course: -1};
     }
 
     addGem = async (e) =>{
         e.preventDefault();
-        console.log(this.state);
         await axios.post('endgemAPI/materials/', this.state)
-        .then(res => console.log(res))
+        .then(res => console.log(this.state))
         .catch(err => console.log(err))
+        this.props.hideAddGemForm()
     }
 
     render(){
-        const {courses} = this.props;
+        const {courses, selectedCourse, changeSelectedCourse, hideAddGemForm} = this.props;
         return (
             <Container className="p-3">
-               <Form className="col-4" method="post" onSubmit={this.addGem}>
+               <Form className="col-4" method="post" onSubmit={(e) => this.addGem(e)}>
                 <FormText className="h3">Upload Material</FormText>
                    <FormGroup className="form-group">
                        <FormLabel htmlFor="fileName">File name</FormLabel>
@@ -29,19 +29,17 @@ export default class AddGem extends Component{
                    </FormGroup>
                    <FormGroup className="form-group">
                         <FormLabel htmlFor="course">Course</FormLabel>
-                        <select id="course" className="form-control" onChange={(e)=> console.log(e.target.value)}>
-                            {
-                                courses.map(course => {
-                                    return <option key={course.pk}>{course.name} </option>
-                                })
-                            }
+                        <select value={selectedCourse} className="form-control" onChange={(e)=> {this.setState({course: e.target.value}); changeSelectedCourse(e.target.value)}}>
+                            <option value={-1} key={-1}>Choose... </option>
+                            { courses.map(course => {return <option value={course.pk} key={course.pk}>{course.name} </option>})}
                         </select>
                     </FormGroup>
                    <FormGroup className="form-group">
                        <FormLabel htmlFor="file">Upload file</FormLabel>
                        <Input type="file" className="form-control-file" id="file"></Input>
                    </FormGroup>
-                   <Input className="btn btn-primary" type="submit" value="Done" />
+                   <Input className="btn btn-primary" type="submit" value="Done" /><br/><br/>
+                   <Input className="btn btn-outline-secondary" type="button" value="Cancel" onClick={hideAddGemForm} />
                </Form>
             </Container>
         )
