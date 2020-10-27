@@ -41,7 +41,7 @@ export default class AddGem extends Component{
                        <FormLabel htmlFor="file">Upload file</FormLabel>
                        <Input type="file" className="form-control-file" id="file"></Input>
                    </FormGroup>
-                   <input className="btn btn-primary" type="submit" value="Done" />
+                   <Input className="btn btn-primary" type="submit" value="Done" />
                </Form>
             </Container>
         )
