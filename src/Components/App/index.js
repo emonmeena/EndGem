@@ -38,7 +38,7 @@ export default class App extends Component{
         this.getCourseMaterial(this.state.selectedCourse);
     }
 
-    addGemForm = (b, files, courses, selectedCourse)=>{
+    handleSectionView = (b, files, courses, selectedCourse)=>{
         if(b)
             return <AddGem courses = {courses} selectedCourse={selectedCourse} changeSelectedCourse={this.changeSelectedCourse} hideAddGemForm={this.hideAddGemForm}/>
         return <FilesSection files={files} selectedCourse={selectedCourse} />
@@ -72,7 +72,7 @@ export default class App extends Component{
                             </button>
                         </div>
                 </header>
-                {this.addGemForm(showAddGemForm, files, courses, selectedCourse)}
+                {this.handleSectionView(showAddGemForm, files, courses, selectedCourse)}
             </div>
         );
     }

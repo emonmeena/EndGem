@@ -6,13 +6,13 @@ import { Input } from 'reactstrap';
 export default class AddGem extends Component{
     constructor(props){
         super(props);
-        this.state = {name: "", course: -1};
+        this.state = {name: "", course: props.selectedCourse};
     }
 
     addGem = async (e) =>{
         e.preventDefault();
         await axios.post('endgemAPI/materials/', this.state)
-        .then(res => console.log(this.state))
+        .then(res => console.log(res))
         .catch(err => console.log(err))
         this.props.hideAddGemForm()
     }
@@ -21,12 +21,8 @@ export default class AddGem extends Component{
         const {courses, selectedCourse, changeSelectedCourse, hideAddGemForm} = this.props;
         return (
             <Container className="p-3">
-               <Form className="col-4" method="post" onSubmit={(e) => this.addGem(e)}>
+               <Form className="col-4" method="post" onSubmit={(e) => this.addGem(e)} encType="multipart/form-data">
                 <FormText className="h3">Upload Material</FormText>
-                   <FormGroup className="form-group">
-                       <FormLabel htmlFor="fileName">File name</FormLabel>
-                       <Input type="text" className="form-control" id="filename" placeholder="Enter file name" onChange={(e) => this.setState({name: e.target.value})}/>
-                   </FormGroup>
                    <FormGroup className="form-group">
                         <FormLabel htmlFor="course">Course</FormLabel>
                         <select value={selectedCourse} className="form-control" onChange={(e)=> {this.setState({course: e.target.value}); changeSelectedCourse(e.target.value)}}>
@@ -34,6 +30,10 @@ export default class AddGem extends Component{
                             { courses.map(course => {return <option value={course.pk} key={course.pk}>{course.name} </option>})}
                         </select>
                     </FormGroup>
+                    <FormGroup className="form-group">
+                       <FormLabel htmlFor="fileName">File name</FormLabel>
+                       <Input type="text" className="form-control" required="true" id="filename" placeholder="Enter file name" onChange={(e) => this.setState({name: e.target.value})}/>
+                   </FormGroup>
                    <FormGroup className="form-group">
                        <FormLabel htmlFor="file">Upload file</FormLabel>
                        <Input type="file" className="form-control-file" id="file"></Input>
